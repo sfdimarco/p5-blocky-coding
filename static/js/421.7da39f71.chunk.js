@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunkp5_blockly_coding=self.webpackChunkp5_blockly_coding||[]).push([[421],{9421:(c,k,l)=>{l.r(k)}}]);
