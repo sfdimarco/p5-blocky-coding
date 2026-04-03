@@ -1,7 +1,7 @@
 import React, { useRef, useEffect, useState } from 'react';
-import Blockly from 'blockly';
+import * as Blockly from 'blockly';
 import 'blockly/blocks';
-import 'blockly/javascript';
+import { javascriptGenerator } from 'blockly/javascript';
 import MonacoEditor from 'react-monaco-editor';
 import * as p5 from 'p5';
 import './App.css';
@@ -43,11 +43,11 @@ function defineP5Blocks() {
       this.setTooltip('Draw a rectangle');
     }
   };
-  Blockly.JavaScript['draw_rect'] = function(block) {
-    const x = Blockly.JavaScript.valueToCode(block, 'X', Blockly.JavaScript.ORDER_NONE) || 0;
-    const y = Blockly.JavaScript.valueToCode(block, 'Y', Blockly.JavaScript.ORDER_NONE) || 0;
-    const w = Blockly.JavaScript.valueToCode(block, 'W', Blockly.JavaScript.ORDER_NONE) || 50;
-    const h = Blockly.JavaScript.valueToCode(block, 'H', Blockly.JavaScript.ORDER_NONE) || 50;
+  javascriptGenerator.forBlock['draw_rect'] = function(block) {
+    const x = javascriptGenerator.valueToCode(block, 'X', javascriptGenerator.Order.NONE) || 0;
+    const y = javascriptGenerator.valueToCode(block, 'Y', javascriptGenerator.Order.NONE) || 0;
+    const w = javascriptGenerator.valueToCode(block, 'W', javascriptGenerator.Order.NONE) || 50;
+    const h = javascriptGenerator.valueToCode(block, 'H', javascriptGenerator.Order.NONE) || 50;
     return `rect(${x}, ${y}, ${w}, ${h});\n`;
   };
 
@@ -63,11 +63,11 @@ function defineP5Blocks() {
       this.setTooltip('Draw an ellipse');
     }
   };
-  Blockly.JavaScript['draw_ellipse'] = function(block) {
-    const x = Blockly.JavaScript.valueToCode(block, 'X', Blockly.JavaScript.ORDER_NONE) || 0;
-    const y = Blockly.JavaScript.valueToCode(block, 'Y', Blockly.JavaScript.ORDER_NONE) || 0;
-    const w = Blockly.JavaScript.valueToCode(block, 'W', Blockly.JavaScript.ORDER_NONE) || 50;
-    const h = Blockly.JavaScript.valueToCode(block, 'H', Blockly.JavaScript.ORDER_NONE) || 50;
+  javascriptGenerator.forBlock['draw_ellipse'] = function(block) {
+    const x = javascriptGenerator.valueToCode(block, 'X', javascriptGenerator.Order.NONE) || 0;
+    const y = javascriptGenerator.valueToCode(block, 'Y', javascriptGenerator.Order.NONE) || 0;
+    const w = javascriptGenerator.valueToCode(block, 'W', javascriptGenerator.Order.NONE) || 50;
+    const h = javascriptGenerator.valueToCode(block, 'H', javascriptGenerator.Order.NONE) || 50;
     return `ellipse(${x}, ${y}, ${w}, ${h});\n`;
   };
 
@@ -83,11 +83,11 @@ function defineP5Blocks() {
       this.setTooltip('Draw a line');
     }
   };
-  Blockly.JavaScript['draw_line'] = function(block) {
-    const x1 = Blockly.JavaScript.valueToCode(block, 'X1', Blockly.JavaScript.ORDER_NONE) || 0;
-    const y1 = Blockly.JavaScript.valueToCode(block, 'Y1', Blockly.JavaScript.ORDER_NONE) || 0;
-    const x2 = Blockly.JavaScript.valueToCode(block, 'X2', Blockly.JavaScript.ORDER_NONE) || 100;
-    const y2 = Blockly.JavaScript.valueToCode(block, 'Y2', Blockly.JavaScript.ORDER_NONE) || 100;
+  javascriptGenerator.forBlock['draw_line'] = function(block) {
+    const x1 = javascriptGenerator.valueToCode(block, 'X1', javascriptGenerator.Order.NONE) || 0;
+    const y1 = javascriptGenerator.valueToCode(block, 'Y1', javascriptGenerator.Order.NONE) || 0;
+    const x2 = javascriptGenerator.valueToCode(block, 'X2', javascriptGenerator.Order.NONE) || 100;
+    const y2 = javascriptGenerator.valueToCode(block, 'Y2', javascriptGenerator.Order.NONE) || 100;
     return `line(${x1}, ${y1}, ${x2}, ${y2});\n`;
   };
 
@@ -100,8 +100,8 @@ function defineP5Blocks() {
       this.setTooltip('Set background color (grayscale)');
     }
   };
-  Blockly.JavaScript['draw_background'] = function(block) {
-    const color = Blockly.JavaScript.valueToCode(block, 'COLOR', Blockly.JavaScript.ORDER_NONE) || 255;
+  javascriptGenerator.forBlock['draw_background'] = function(block) {
+    const color = javascriptGenerator.valueToCode(block, 'COLOR', javascriptGenerator.Order.NONE) || 255;
     return `background(${color});\n`;
   };
 }
@@ -131,7 +131,7 @@ function App() {
   useEffect(() => {
     if (!workspace) return;
     const onChange = () => {
-      const js = Blockly.JavaScript.workspaceToCode(workspace);
+      const js = javascriptGenerator.workspaceToCode(workspace);
       setCode(js);
     };
     workspace.addChangeListener(onChange);
